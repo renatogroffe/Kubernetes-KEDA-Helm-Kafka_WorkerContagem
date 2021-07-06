@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: workercontagem-scaledobject
+spec:
+  scaleTargetRef:
+    name: workercontagem
+  pollingInterval: 15
+  cooldownPeriod:  30
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: HOST KAFKA
+      consumerGroup: groffe
+      topic: topic-contagem
+      lagThreshold: '5'
+      offsetResetPolicy: earliest

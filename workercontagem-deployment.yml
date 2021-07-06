@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workercontagem
+spec:
+  selector:
+    matchLabels:
+      app: workercontagem
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: workercontagem
+    spec:
+      containers:
+      - name: workercontagem
+        image: renatogroffe/workercontagemkafka:2
+        env:
+        - name: ApacheKafka__Host
+          value: HOST KAFKA
+        - name: ApacheKafka__Topic
+          value: topic-contagem
+        - name: ApacheKafka__GroupId
+          value: groffe
+        - name: ConnectionStrings__BaseContagem
+          valueFrom:
+            secretKeyRef:
+              name: workercontagemsecret
+              key: ConnectionSqlServer
